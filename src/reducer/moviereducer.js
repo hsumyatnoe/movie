@@ -1,10 +1,24 @@
-const movie = (state = 'all', action) => {
+const fav = (state = [], action) => {
     switch (action.type) {
-      case 'SET_All':
-        return action.filter
+      case "ADD_Fav":
+        return [
+          ...state,
+          {
+            id: action.id,
+          //  text: action.text,
+            complete: false
+          }
+        ];
+  
+      /* case "TOGGLE_TODO":
+        return state.map(todo =>
+          todo.id === action.id ? { ...todo, complete: !todo.complete } : todo
+        );
+   */
       default:
-        return state
+        return state;
     }
-  }
-
-  export default movie
+  };
+  
+  export default fav;
+  
