@@ -1,9 +1,8 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import MovieDetail from './moviedetail'
+import React, { Component } from 'react';
 
 
-class MovieList extends React.Component {
+class MovieDetail extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -13,14 +12,15 @@ class MovieList extends React.Component {
 
     componentDidMount() {
 
-        fetch(`http://www.omdbapi.com?s=spider man&apikey=b275eadc`)
+        fetch(`http://www.omdbapi.com?i=tt2273962&y=&plot=short&type=series&r=json&apikey=b275eadc`)
             .then(res => res.json())
             .then(
                 (result) => {
                     this.setState({
                         isLoaded: true,
-                        movie: result.Search
+                        movie: result,
                     });
+                    console.log(movie);
                 },
                 
                 (error) => {
@@ -32,10 +32,6 @@ class MovieList extends React.Component {
             )
     }
 
-    handleFavourite = event => {
-        alert('Favorite');
-    }
-
     render() {
         const { error, isLoaded, movie } = this.state;
         if (error) {
@@ -44,7 +40,6 @@ class MovieList extends React.Component {
             return <div>Loading...</div>;
         } else {
             return (
-                <Router>
 
                 <React.Fragment>              
                 <div className="float-right">
@@ -56,41 +51,9 @@ class MovieList extends React.Component {
             </div>
                 <div className="row">
                     {movie.map(list => (
-                        <div class="col-md-4" key={list.imdbID}>
+                        <div class="col-md-4">
 
-                                    {/* <Link to="/imdbID">{list.imdbID}</Link> */}
-                                      <Link
-                    to={"/"+list.imdbID}
-                    className="list-group-item"
-                    key={list.imdbID}>
-                    {list.imdbID}
-                </Link>
-                                    {/* <Link to="/netflix">Netflix</Link>
-                                    <Link to="/zillow-group">Zillow Group</Link> */}
-
-
-  <Route path="/:imdbID" component={MovieDetail} />
-{/*
-   It's possible to use regular expressions to control what param values should be matched.
-      * "/order/asc"  - matched
-      * "/order/desc" - matched
-      * "/order/foo"  - not matched
-*/}
-{/* <Route
-  path="/order/:direction(asc|desc)"
-  component={ComponentWithRegex}
-/> */}
-
-
-                {/* <Link
-                    to={"/moviedetail/"+list.imdbID}
-                    className="list-group-item"
-                    key={list.imdbID}>
-                    {list.imdbID}
-                </Link> */}
-                        {/* <Route path="imdbID" component={MovieDetail}/> */}
-
-
+                         
                             <img src={list.Poster} alt="..." class="img-thumbnail" />
                             <div class="caption center-block">Title: {list.Title}</div>
                             <div class="caption center-block">Year: {list.Year}</div>
@@ -105,35 +68,21 @@ class MovieList extends React.Component {
                 </div>
                             
                 </React.Fragment>  
-                </Router>   
                 
             );
         }
     }
+
+
+
+    // render(){
+    //     console.log(this.props.match.params.imdbID);
+    //     return (
+    //       <div>
+    //         <h3>{this.props.match.params.imdbID}</h3>
+    //       </div>
+    //     );
+    //   }
 }
 
-// function Child({ match }) {
-// console.log(match);
-//     return (
-       
-//       <div>
-//         <h3>ID: {match.params.imdbID}</h3>
-//       </div>
-//     );
-//   }
-
-//   class Child extends Component {
-//     render(){
-//         return (<h1>{match.params.imdbID}</h1>);
-//     }
-// }
-  
-//   function ComponentWithRegex({ match }) {
-//     return (
-//       <div>
-//         <h3>Only asc/desc are allowed: {match.params.direction}</h3>
-//       </div>
-//     );
-//   }
-
-export default MovieList;
+export default MovieDetail
